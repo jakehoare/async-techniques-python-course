@@ -4,7 +4,7 @@ import threading
 
 def main():
     threads = [
-        # daemon=True stops the thread running when the main thread finishes
+        # daemon=True stops the threads running when the main thread finishes
         threading.Thread(target=greeter, args=("Michael", 10), daemon=True),
         threading.Thread(target=greeter, args=("Sarah", 5), daemon=True),
         threading.Thread(target=greeter, args=("Zoe", 2), daemon=True),

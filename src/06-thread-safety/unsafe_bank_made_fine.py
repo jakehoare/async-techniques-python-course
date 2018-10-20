@@ -55,22 +55,29 @@ def create_accounts() -> List[Account]:
         Account(balance=9000),
     ]
 
-# Course lock for all accounts together
+# Coarse lock for all accounts together
 transfer_lock = RLock()
 
 def do_transfer(from_account: Account, to_account: Account, amount: int):
     if from_account.balance < amount:
         return
 
-    print("Taking first lock...")
-    with from_account.lock:
-        print("Taking second lock...")
-        with to_account.lock:
+    # Always take the locks in order of id to avoid deadlock
+    lock1, lock2 = (
+        (from_account.lock, to_account.lock)
+        if id(from_account) < id(to_account)
+        else (to_account.lock, from_account.lock)
+    )
+
+    #print("Taking first lock...")
+    with lock1:
+        #print("Taking second lock...")
+        with lock2:
             from_account.balance -= amount
             time.sleep(.000)
             to_account.balance += amount
-        print("Releasing second lock...")
-    print("Releasing first lock...")
+        #print("Releasing second lock...")
+    #print("Releasing first lock...")
 
 
 def validate_bank(accounts: List[Account], total: int, quiet=False):

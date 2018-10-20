@@ -1,9 +1,11 @@
 import requests
 import bs4
 from concurrent.futures import Future
-# from concurrent.futures.thread import ThreadPoolExecutor as PoolExecutor
+# Comment out one of the 2 lines below to choose between threads and processes
+#from concurrent.futures.thread import ThreadPoolExecutor as PoolExecutor
 from concurrent.futures.process import ProcessPoolExecutor as PoolExecutor
 
+# Below code uses same API for threading and processing
 
 def main():
     urls = [
@@ -16,6 +18,7 @@ def main():
 
     work = []
 
+    # submit work to an executor
     with PoolExecutor() as executor:
         for url in urls:
             # print("Getting title from {}".format(url.replace('https', '')),
@@ -33,6 +36,8 @@ def main():
 
 
 def get_title(url: str) -> str:
+
+    # Threading is MainProcess, multiprocessing is different threads
     import multiprocessing
     p = multiprocessing.current_process()
     print("Getting title from {}, PID: {}, ProcName: {}".format(

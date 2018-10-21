@@ -32,6 +32,7 @@ def main():
 
 
 async def compute_some():
+    # no awaiting possible
     print("Computing...")
     for _ in range(1, 10_000_000):
         math.sqrt(25 ** 25 + .01)
@@ -50,6 +51,7 @@ async def download_some():
 
 
 async def download_some_more():
+    # no await so no advantage of async (threading would help)
     print("Downloading more ...")
     url = 'https://pythonbytes.fm/episodes/show/92/will-your-python-be-compiled'
     resp = requests.get(url)

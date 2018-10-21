@@ -39,6 +39,7 @@ async def compute_some():
 
 
 async def download_some():
+    # uses async version of requests
     print("Downloading...")
     url = 'https://talkpython.fm/episodes/show/174/coming-into-python-from-another-industry-part-2'
     async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
